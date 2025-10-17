@@ -28,7 +28,7 @@ Outputs include GFF3 annotation files, TE libraries, and summary plots.
 
 ### 1.3 Visual Summary
 
-![[Eukaryote_Genome_Annotation/Images/01_LTR_Copia_Gypsy_cladelevel_white.png|600]]
+![[Images/01_LTR_Copia_Gypsy_cladelevel_white.png|600]]
 
 (Results/01-EDTA_annotation/plots/01_LTR_Copia_Gypsy_cladelevel_white.png)
 
