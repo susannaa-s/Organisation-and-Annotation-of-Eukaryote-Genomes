@@ -28,7 +28,7 @@ Outputs include GFF3 annotation files, TE libraries, and summary plots.
 
 ### 1.3 Visual Summary
 
-![[Images/01_LTR_Copia_Gypsy_cladelevel_white.png|600]]
+![Clade-level distribution of Copia and Gypsy elements](Images/01_LTR_Copia_Gypsy_cladelevel_white.png)
 
 (Results/01-EDTA_annotation/plots/01_LTR_Copia_Gypsy_cladelevel_white.png)
 
