@@ -28,7 +28,7 @@ Outputs include GFF3 annotation files, TE libraries, and summary plots.
 
 ### 1.3 Visual Summary
 
-![[Results/01-EDTA_annotation/plots/01_LTR_Copia_Gypsy_cladelevel_white.png|600]]
+![[Eukaryote_Genome_Annotation/Images/01_LTR_Copia_Gypsy_cladelevel_white.png|600]]
 
 (Results/01-EDTA_annotation/plots/01_LTR_Copia_Gypsy_cladelevel_white.png)
 
@@ -44,6 +44,8 @@ Observations :
 
 ### 1.4 Guiding Questions 
 
+Answers Based on the TEsorter output 
+
 1. Are there differences in the number of full-length LTR-RTs between the clades?
 
 - Yes. There are 88 classified elements for Copia and 110 for Gypsy. Copia spans 9 clades, Gypsy spans 5.
@@ -52,3 +54,12 @@ Observations :
 
 - Copia clades such as Ale, Angela, and Bianca show high sequence identity, indicating recent insertions.
 - Gypsy clades such as Athila, Tekay, and Retand show broader peaks around 0.85–0.9, characteristic of older or more degenerated insertions.
+
+Answers Based on the EDTA summary file : 
+
+3. Which TE superfamily is the most abundant in the genome?
+
+
+
+
+4. Are there any differences in TE content between the accessions?
