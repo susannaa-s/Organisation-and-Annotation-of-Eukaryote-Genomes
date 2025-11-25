@@ -1,0 +1,19 @@
+# Ignore everything
+*
+
+# Allow folders
+!Graphs/
+!Logs/
+!R-Scripts/
+!Scripts/
+
+# Allow all files inside those folders
+!Graphs/**
+!Logs/**
+!R-Scripts/**
+!Scripts/**
+
+# Allow README and .gitignore
+!README.md
+!.gitignore
+
