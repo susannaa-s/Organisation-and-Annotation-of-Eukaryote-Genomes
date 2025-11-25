@@ -201,3 +201,179 @@ Both plots were manually saved to:
 /data/users/sschaerer/Eukaryote_Genome_Annotation/Graphs
 ```
 and converted into .png files to be displayed in `RESULTS.md`
+
+## Part 2: Annotation of Genes with the MAKER Pipeline
+
+### 2.1 Preparing the MAKER annotation environment
+
+All MAKER work was carried out in:
+
+```
+Results/Part_2/01-MAKER_annotation
+```
+
+The MAKER control files (`maker_opts.ctl`, `maker_bopts.ctl`, `maker_evm.ctl`, `maker_exe.ctl`) were generated using:
+```
+sbatch Scripts/02.1_setup_MAKER.sh
+```
+
+This script initialises the directory, loads the MAKER container, detects Apptainer/Singularity, and runs `maker -CTL`.
+
+The main configuration file (`maker_opts.ctl`) was then edited according to Manual 2. Only required parameters were changed.
+
+Evidence and settings provided:
+
+* Genome assembly:
+  `Data/hifiasm_p_ctg.fasta`
+* RNA-seq evidence (Trinity):
+  `Data/trinity_output.Trinity.fasta`
+* Protein homology:
+  TAIR10 representative proteins + UniProt Viridiplantae reviewed proteins
+* Repeat masking:
+
+  * `model_org=` (disable DFam)
+  * `rmlib=` EDTA TE library
+  * `repeat_protein=` PTREP20
+* Gene prediction: AUGUSTUS *arabidopsis* model
+* Evidence-based predictions: `est2genome=1`, `protein2genome=1`
+* MPI behaviour: `cpus=1`, `TMP=$SCRATCH`
+
+Final configuration block:
+
+```
+genome=.../Data/hifiasm_p_ctg.fasta
+est=.../Data/trinity_output.Trinity.fasta
+protein=/data/.../TAIR10_pep...,/data/.../uniprot_viridiplantae_reviewed.fa
+model_org=
+rmlib=.../01-EDTA_annotation/hifiasm_p_ctg.fasta.mod.EDTA.TElib.fa
+repeat_protein=/data/.../PTREP20
+AED_threshold=1
+augustus_species=arabidopsis
+est2genome=1
+protein2genome=1
+cpus=1
+TMP=$SCRATCH
+```
+
+---
+
+### 2.2 Running MAKER with MPI
+
+MAKER was run with 50 MPI workers inside the container using:
+
+```
+sbatch Scripts/02.2_run_MAKER_mpi.sh
+```
+
+The script binds all required directories and executes:
+
+```
+maker -mpi --ignore_nfs_tmp -TMP /TMP maker_opts.ctl maker_bopts.ctl maker_evm.ctl maker_exe.ctl
+```
+
+**Output structure**
+
+```
+02-MAKER_annotation_results/
+└── hifiasm_p_ctg.maker.output/
+    ├── hifiasm_p_ctg_master_datastore_index.log
+    ├── <contig>/<chunk>.maker.output/
+    └── ...
+```
+
+The datastore index tracks the status of each contig; each chunk directory contains GFF3s, logs, and intermediate outputs.
+
+
+### 2.5 Output preparation and renaming
+
+Per-contig outputs were merged into unified GFF and FASTA files, then renamed to assign consistent gene and transcript identifiers.
+
+Renaming was performed with:
+
+```
+sbatch Results/Part_2/04-MAKER_output_refinement/06.1_rename_maker_outputs.sh
+```
+
+Outputs:
+
+```
+hifiasm_p_ctg.all.maker.noseq.renamed.gff
+hifiasm_p_ctg.all.maker.proteins.renamed.fasta
+hifiasm_p_ctg.all.maker.transcripts.renamed.fasta
+```
+
+### 2.6 Filtering and refining gene annotations
+
+A complete refinement pipeline was run using:
+
+```
+sbatch Results/Part_2/04-MAKER_output_refinement/06_maker_refinement_full.sh
+```
+
+The script performs:
+
+1. InterProScan domain annotation (Pfam).
+2. Incorporation of domain information into the GFF.
+3. AED calculation for all gene models.
+4. Quality filtering (AED < 1 or at least one Pfam domain).
+5. Retention of gene, mRNA, CDS, exon, and UTR features only.
+6. Subsetting of protein and transcript FASTAs using `faSomeRecords`.
+
+Final high-confidence outputs:
+
+```
+filtered.genes.renamed.gff3
+hifiasm_p_ctg.all.maker.transcripts.renamed.filtered.fasta
+hifiasm_p_ctg.all.maker.proteins.renamed.filtered.fasta
+hifiasm_p_ctg.all.maker.noseq.renamed.iprscan.gff
+hifiasm_p_ctg.all.maker.noseq.renamed.AED.txt
+hifiasm_p_ctg.all.maker.noseq.renamed_iprscan_quality_filtered.gff
+output.iprscan
+id.map
+```
+The filtered annotation contains 49,673 high-confidence mRNAs, matching the filtered FASTA files.
+
+### 2.7 BUSCO quality assessment
+
+Longest isoforms were extracted using:
+
+```
+sbatch Scripts/05.1-prepare_longest.sh
+```
+
+Outputs:
+
+```
+maker_proteins.renamed.longest.fasta
+maker_transcripts.renamed.longest.fasta
+```
+
+BUSCO was run in protein and transcriptome modes:
+
+```
+sbatch Scripts/05.2-run_BUSCO.sh
+```
+
+Results stored in:
+
+```
+Results/Part_2/05-BUSCO/
+```
+
+### 2.8 AGAT annotation statistics
+
+AGAT was used to generate structural annotation statistics:
+
+Run:
+
+```
+sbatch Scripts/05.3-run_AGAT_stats.sh
+```
+
+Output:
+
+```
+Results/Part_2/06-AGAT_statistics/annotation.stat
+```
+
+This file summarises counts of gene models, exons, CDS, UTRs, isoforms, and feature lengths.
