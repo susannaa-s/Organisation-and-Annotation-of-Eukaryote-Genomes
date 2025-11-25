@@ -9,7 +9,6 @@
 
 # Allow all files inside those folders
 !Graphs/**
-!Logs/**
 !R-Scripts/**
 !Scripts/**
 
