@@ -52,7 +52,8 @@ Yes, TE content normally differs between accessions, but we can only confirm di
 
 ### Part 1.2 
 
-![[Eukaryote_Genome_Annotation/Images/01_LTR_Copia_Gypsy_cladelevel_white.png]]
+![Copia/Gypsy clade identity distribution](Graphs/01_LTR_Copia_Gypsy_cladelevel_white.png)
+
 
 #### Are there differences in the number of full length LTR-RTs between the clades?
 
@@ -72,8 +73,7 @@ Yes. Several clades (Tekay, Retand, Athila, Ale, Ivana) show many elements with 
 
 
 ### Part 1.3 
-
-![[TE_distribution_circlize_FINAL.png]]
+<img src="Graphs/01.3-TE_distribution_circlize_FINAL.png" width="600">
 #### Are there any regions with high TE density?
 
 Yes. Several scaffolds show clear regional clustering of TEs, with higher densities toward specific ends or segments of the scaffold.
@@ -131,12 +131,6 @@ while smaller contributions come from Bianca, Ivana, SIRE, Alesia, and Angela.
 
 Gypsy families are most abundant in the Reina and Retand clades (11 families each), 
 followed by Athila (8), CRM (4), and Tekay (1).
-
-
-
-### Part 1.6 
-
-
 
 ### Part 1.7
 
