@@ -110,6 +110,12 @@ The output file is then manually saved as:
 
 A copy of the R script can be found at :  `/R-Scripts/01.3-Cirlize.R`
 
+An additional plot was created to display the TE distribution along with general gene density using the Circos package : 
+```
+- /Extra/circos_te_density.R
+- /Extra/wrapper_circos_density.sh
+```
+The rsulting plot os stored in : `/Gaphs/TE_Gene_density_ORIGINAL.png` . 
 
 ### 1.4 Step 2: Run TEsorter
 
