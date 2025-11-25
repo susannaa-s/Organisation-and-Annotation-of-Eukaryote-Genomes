@@ -73,17 +73,17 @@ Yes. Several clades (Tekay, Retand, Athila, Ale, Ivana) show many elements with 
 
 
 ### Part 1.3 
-<img src="Graphs/01.3-TE_distribution_circlize_FINAL.png" width="600">
+<img src="Graphs/TE_Gene_density_ORIGINAL.png" width="600">
 #### Are there any regions with high TE density?
 
 Yes. Several scaffolds show clear regional clustering of TEs, with higher densities toward specific ends or segments of the scaffold.
 
-Examples you can safely state from the plot:
 - ptg000006, ptg000009, ptg000021, and ptg000006l show distinct regions with high TE density, especially in the unknown (green) and Copia (orange) categories.
+- we observe the expected anticorrelational pattern between gene density and TE density which is an encouraging result 
+  
+- The dense green peaks typically suggest older, fragmented TE accumulation, often associated with pericentromeric-like regions 
     
-- The dense green peaks typically suggest older, fragmented TE accumulation, often associated with pericentromeric-like regions (even though these are scaffolds, not true chromosomes).
-    
-- Some scaffolds show long stretches with _very low_ TE density (e.g., ptg000011), indicating likely gene-rich regions.
+- Some scaffolds show long stretches with _very low_ TE density (e.g., ptg000011), indicating likely gene-rich regions
 
 #### Do the distribution of Gypsy and Copia and other TIR DNA transposons overlap, are there any differences?
 
@@ -133,11 +133,11 @@ Gypsy families are most abundant in the Reina and Retand clades (11 families eac
 followed by Athila (8), CRM (4), and Tekay (1).
 
 ### Part 1.7
+<p align="center">
+  <img src="Graphs/TE_age_landscape.png" width="500">
+  <img src="Graphs/TE_divergence_landscape.png" width="500">
+</p>
 
-TE Age Landscape 
-![[Screenshot 2025-11-15 at 21.34.57.png]]
-TE divergence Landscape 
-![[Screenshot 2025-11-15 at 21.35.36.png]]
 
 #### 1. Can you identify recent and ancient TE activity peaks?
 
@@ -161,15 +161,18 @@ Two pronounced regions appear:
 2. Older, broad tail (K > 0.25 → ~20–30 MYA)
 	Represents highly degraded, ancient insertions, many of them TIR elements and older Gypsy families.
 
+Note : The conversion from divergence to age is very inexact as it relies heavily on the average mutation rate in the conversion formula : insert formula. 
 
 So:
-- Major TE activity occurred 10–25 MYA
+- Major TE activity occurred very roughly 10–25 MYA
 - No clear evidence of recent activation.
+
+We also note that there has there have been divergences up to very recently without any sign of subsiding mesning that there are most lkely still mutations happening. 
     
 
 2. #### Are there differences in TE dynamics between the accessions studied in the group?
 
-You can answer this only relative to others’ plots, but generally in Arabidopsis groups you see:
+As we have a large group of different accessions amongst the group, there are some differences depending on the accession. Over all the results for Mr-0 are fairly standart in comparison. There are no major discrepancies between this result and the average result form the group. 
 
 #### 3. How do the TE dynamics differ between Copia and Gypsy elements?
 
@@ -190,4 +193,3 @@ Interpretation
 - Copia elements were active but at lower magnitude, and less retention of ancient fragments is typical in Arabidopsis.
 - Neither superfamily shows evidence of recent (<5 MYA) bursts.
     
-This pattern perfectly matches published TE age profiles of Arabidopsis.
