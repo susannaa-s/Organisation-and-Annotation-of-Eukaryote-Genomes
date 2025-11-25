@@ -377,3 +377,335 @@ Results/Part_2/06-AGAT_statistics/annotation.stat
 ```
 
 This file summarises counts of gene models, exons, CDS, UTRs, isoforms, and feature lengths.
+
+
+
+## Part 2. Gene Annotation with the MAKER Pipeline
+
+### 2.1 Preparing the MAKER annotation environment
+
+All MAKER configuration and output files were generated in:
+
+```
+Results/Part_2/01-MAKER_annotation
+```
+
+Control files (`maker_opts.ctl`, `maker_bopts.ctl`, `maker_evm.ctl`, `maker_exe.ctl`) were created with:
+
+```
+sbatch Scripts/02.1_setup_MAKER.sh
+```
+
+This script loads the MAKER Apptainer container, detects Apptainer/Singularity, and runs `maker -CTL`.
+
+Key parameters edited in `maker_opts.ctl`:
+
+- Genome assembly: `Data/hifiasm_p_ctg.fasta`
+    
+- EST evidence: `Data/trinity_output.Trinity.fasta`
+    
+- Protein evidence:  
+    TAIR10 representative proteins + UniProt Viridiplantae reviewed
+    
+- Repeat masking:
+    
+    - `model_org=` (disable DFam)
+        
+    - `rmlib=` EDTA TE library
+        
+    - `repeat_protein=` PTREP20
+        
+- Gene prediction: AUGUSTUS _arabidopsis_ model
+    
+- Evidence alignment: `est2genome=1`, `protein2genome=1`
+    
+- MPI behaviour: `cpus=1`, `TMP=$SCRATCH`
+    
+
+The edited block:
+
+```
+genome=.../Data/hifiasm_p_ctg.fasta
+est=.../Data/trinity_output.Trinity.fasta
+protein=/data/.../TAIR10_pep,.../uniprot_viridiplantae_reviewed.fa
+model_org=
+rmlib=.../01-EDTA_annotation/hifiasm_p_ctg.fasta.mod.EDTA.TElib.fa
+repeat_protein=/data/.../PTREP20
+AED_threshold=1
+augustus_species=arabidopsis
+est2genome=1
+protein2genome=1
+cpus=1
+TMP=$SCRATCH
+```
+### 2.2 Running MAKER with MPI
+
+MAKER was launched using 50 MPI workers:
+
+```
+sbatch Scripts/02.2_run_MAKER_mpi.sh
+```
+
+The script binds all required directories and runs:
+
+```
+maker -mpi --ignore_nfs_tmp -TMP /TMP maker_opts.ctl maker_bopts.ctl maker_evm.ctl maker_exe.ctl
+```
+
+Output structure:
+
+```
+02-MAKER_annotation_results/
+└── hifiasm_p_ctg.maker.output/
+    ├── hifiasm_p_ctg_master_datastore_index.log
+    ├── <contig>/<chunk>.maker.output/
+    └── ...
+```
+
+Each chunk directory contains GFF3s, logs, and intermediate files.
+
+---
+
+### 2.5 Merging Maker outputs and renaming gene models
+
+Merged GFF and FASTA files were renamed to generate consistent gene and transcript IDs using:
+
+```
+sbatch Results/Part_2/04-MAKER_output_refinement/06.1_rename_maker_outputs.sh
+```
+
+Outputs:
+
+```
+hifiasm_p_ctg.all.maker.noseq.renamed.gff
+hifiasm_p_ctg.all.maker.proteins.renamed.fasta
+hifiasm_p_ctg.all.maker.transcripts.renamed.fasta
+```
+
+---
+
+### 2.6 Filtering and refining gene annotations
+
+The complete refinement pipeline was executed with:
+
+```
+sbatch Results/Part_2/04-MAKER_output_refinement/06_maker_refinement_full.sh
+```
+
+This performs:
+
+1. InterProScan (Pfam-only) annotation
+    
+2. Updating GFF with domain information
+    
+3. AED calculation
+    
+4. Filtering (keep AED < 1 or genes with Pfam domains)
+    
+5. Retaining gene/mRNA/CDS/exon/UTR features
+    
+6. Subsetting protein and transcript FASTAs using `faSomeRecords`
+    
+
+Final high-confidence annotation files:
+
+```
+filtered.genes.renamed.gff3
+hifiasm_p_ctg.all.maker.transcripts.renamed.filtered.fasta
+hifiasm_p_ctg.all.maker.proteins.renamed.filtered.fasta
+hifiasm_p_ctg.all.maker.noseq.renamed.iprscan.gff
+hifiasm_p_ctg.all.maker.noseq.renamed.AED.txt
+hifiasm_p_ctg.all.maker.noseq.renamed_iprscan_quality_filtered.gff
+output.iprscan
+id.map
+```
+
+The filtered gene set contains 49,673 mRNAs.
+
+### 2.7 UniProt functional annotation
+
+UniProt-based functional annotation was performed on the filtered protein FASTA using BLASTP against the reviewed Viridiplantae UniProt dataset:
+
+```
+sbatch Scripts/06.1-run_uniprot_annotation.sh
+```
+
+Pipeline steps:
+
+1. BLASTP to UniProt reviewed proteins
+    
+2. Sorting to retain the best hit per query
+    
+3. Updating the protein FASTA with UniProt annotations
+    
+4. Updating the GFF3 with UniProt functional fields
+    
+
+Outputs:
+```
+maker_proteins.filtered.fasta.Uniprot
+filtered.genes.renamed.gff3.Uniprot.gff3
+<file>.besthits
+```
+These files contain putative functional assignments mapped to MR-0 gene models.
+
+### 2.8 BUSCO quality assessment
+
+Longest isoforms were extracted with:
+```
+sbatch Scripts/05.1-prepare_longest.sh
+```
+
+BUSCO (brassicales_odb10) was run in protein and transcript mode:
+```
+sbatch Scripts/05.2-run_BUSCO.sh
+```
+
+Results stored in:
+
+```
+Results/Part_2/05-BUSCO/
+```
+This provides completeness statistics for the final MAKER annotation.
+
+### 2.9 AGAT structural annotation statistics
+
+AGAT was used to summarise gene, mRNA, exon, intron, UTR, and isoform counts:
+```
+sbatch Scripts/05.3-run_AGAT_stats.sh
+```
+
+Output:
+```
+Results/Part_2/06-AGAT_statistics/annotation.stat
+```
+
+## Part 3: Comparative Genomics with GENESPACE
+
+This part follows Manual 3 and uses GENESPACE to identify orthogroups, evaluate genome-wide synteny, and compare gene order among multiple *Arabidopsis thaliana* accessions. The workflow consists of:
+
+1. Running UniProt homology on the final MAKER proteins
+2. Preparing BED and peptide FASTA files for each genome
+3. Creating the GENESPACE working directory
+4. Running OrthoFinder and MCScanX via GENESPACE
+5. Extracting pangenome matrices and orthogroup summaries
+6. Generating synteny dotplots and multi-genome riparian plots
+
+---
+
+### 3.1 UniProt homology (pre-GENESPACE step)
+
+Before preparing GENESPACE input files, UniProt homology was computed for MR-0 proteins to support functional comparison across accessions.
+
+This was performed using:
+
+```
+sbatch Scripts/03.1-uniprot_homology.sh
+```
+
+The script:
+
+* runs BLASTP against the UniProt Viridiplantae reviewed database
+* sorts results to retain the best hit per gene
+* produces UniProt-annotated FASTA and GFF files
+
+Outputs:
+
+```
+01-uniprot_homology/
+    blastp_uniprot.out
+    blastp_uniprot.out.besthits
+    maker_proteins.filtered.fasta.Uniprot
+    filtered.genes.renamed.gff3.Uniprot.gff3
+```
+
+These files provide functional labels used later when interpreting orthogroups.
+
+### 3.2 Preparing GENESPACE input files
+
+GENESPACE requires two files per accession:
+
+* `peptide/<ACCESSION>.fa` — protein FASTA
+* `bed/<ACCESSION>.bed` — genomic coordinates of each gene
+
+The MR-0 BED and peptide files were generated from the final filtered GFF using:
+
+```
+sbatch Scripts/03.1_prepare_Genespace_inputs.sh
+```
+
+Accessions included:
+
+* MR-0
+* TAIR10
+* Are-6
+* Est-0
+* Ice-1
+
+Input files were stored in:
+
+```
+Results/Part_3/02-GENESPACE_inputs/bed/
+Results/Part_3/02-GENESPACE_inputs/peptide/
+```
+
+Each BED file is 0-based and includes:
+`chromosome  start  end  geneID`
+
+
+### 3.3 Running GENESPACE
+
+GENESPACE was run using a dedicated R script:
+
+```
+R-Scripts/03.3-run_genespace.R
+```
+
+and launched via the SLURM wrapper:
+
+```
+sbatch Scripts/03.3-run_Genespace.sh
+```
+
+The R script performs:
+
+* initialisation of GENESPACE
+* execution of OrthoFinder (DIAMOND)
+* identification of orthogroups
+* reconstruction of syntenic blocks with MCScanX
+* generation of dotplots and riparian plots
+* extraction of the pangenome matrix (`pangenome_matrix.rds`)
+
+Outputs are stored in:
+
+```
+Results/Part_3/03-GENESPACE_results/
+```
+
+Key generated files:
+
+```
+pangenome_matrix.rds
+orthogroups/
+rawHits.pdf
+syntenicHits.pdf
+RiparianPlots/
+```
+
+### 3.4 Pangenome and synteny outputs
+
+GENESPACE produces:
+
+* pangenome matrix
+  presence/absence of each orthogroup across all accessions
+* core orthogroups
+  present in all genomes
+* accessory orthogroups
+  present in a subset
+* unique orthogroups
+  specific to MR-0 or other accessions
+* dotplots showing pairwise syntenic hits
+* riparian plots showing multi-genome gene-order structure
+
+Plots were converted to PNG for use in `RESULTS.md`.
+
