@@ -304,6 +304,9 @@ Across the five accessions (Are-6, Est-0, Ice-1, MR-0 and TAIR10), a total of 34
 
 #### 3.4 Do you see any major structural rearrangements between accessions?
 
+<img src="Graphs/MR_0_geneOrder.rip.png" width="600">
+
+
 Across the five Arabidopsis accessions, the riparian plot shows highly conserved synteny with no visible major structural rearrangements. The braids connecting orthologous genes run smoothly between TAIR10 and all other genomes, including MR-0, indicating:
 - no large inversions
 - no translocations
