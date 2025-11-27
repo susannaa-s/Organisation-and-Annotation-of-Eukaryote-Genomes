@@ -1,14 +1,16 @@
 # README 
 
-The following document provides the basic Workflow to perform the Analysis or the Mr-0 accession of A. thaliana. The Results and discussions are kept separate documents : 
+This document provides the full workflow used to analyse the Arabidopsis thaliana MR-0 accession.
+All scientific interpretation, figures, and discussion are kept in a separate document:
+- `Eukaryote_Genome_Annotation/RESULTS.md``
 
-- Eukaryote_Genome_Annotation/RESULTS.md
-
-Please keep in mind that all provided commands assume the initital position to be in the Project folder. 
+All commands assume execution from the project root directory.
 
 ## Part 1. Transposable Element Annotation
 
 This section documents the full workflow used to identify, classify, and explore transposable elements in the genome assembly, following the procedures outlined in Manual 1 (Transposable Element Annotation). 
+
+It is split into four main parts : 
 
 ### 1.1 Running EDTA to generate a genome-wide TE annotation
 
@@ -21,7 +23,7 @@ Along with the following  CDS file to avoid miss-classification of TEs
 This is done by first creating the directory to store the results : 
 
 ```
-mkdir -p Results/Part_1/01-EDTA_annotation
+mkdir -p Results/Part1/01-EDTA_annotation
 ```
 
 And running the corresponding script : 
@@ -49,8 +51,7 @@ The following files are created :
 ### 1.2 Full-length LTR-RT clade classification and identity plot
 
 Refining the classification of structurally intact LTR retrotransposons and visualising their percent identity across Copia and Gypsy clades. This also serves as an indicator of insertion age. 
-TEsorter is used to assign clades based on protein domain homology, and an R script generates faceted histograms showing the identity distribution within each clade. This R script was provided in the course directory on the University cluster. 
-- `/data/courses/assembly-annotation-course/CDS_annotation/scripts/02-full_length_LTRs_identity.R`
+TEsorter is used to assign clades based on protein domain homology, and an R script generates faceted histograms showing the identity distribution within each clade.
 
 **Workflow**
 
@@ -84,9 +85,13 @@ convert 01_LTR_Copia_Gypsy_cladelevel.png \
     01_LTR_Copia_Gypsy_cladelevel_white.png
 ```
 
+
+Here is a **short, clean, R-Studio–friendly README subsection** you can paste directly into your project README under **2.2 Visualising TE Annotations**.  
+No bold, no unnecessary wording, just concise documentation that fits your GitHub structure and the manual’s expectations.
+
 ### 1.3 Visualising TE Annotations (circlize)
 
-To explore the spatial distribution of transposable elements across the genome, a circos-style TE density plot was generated using the R package circlize. 
+To explore the spatial distribution of transposable elements across the genome, I generated a circos-style TE density plot using the R package circlize. 
 - based on the EDTA whole-genome annotation file `hifiasm_p_ctg.fasta.mod.EDTA.TEanno.gff3` and
 - scaffold lengths obtained from the corresponding `.fai` index of the assembly.
 
@@ -104,18 +109,12 @@ To perform this step, the following files were  downloaded to a local machine an
 
 - `/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_1/01-EDTA_annotation/hifiasm_p_ctg.fasta.mod.EDTA.TEanno.gff3`
 
+- `/data/users/sschaerer/Eukaryote_Genome_Annotation/R-Scripts/01.3-Cirlize.R`
+
 The output file is then manually saved as:
 
 - `/data/users/sschaerer/Eukaryote_Genome_Annotation/Graphs/01.3-TE_distribution_circlize_FINAL.png`
 
-A copy of the R script can be found at :  `/R-Scripts/01.3-Cirlize.R`
-
-An additional plot was created to display the TE distribution along with general gene density using the Circos package : 
-```
-- /Extra/circos_te_density.R
-- /Extra/wrapper_circos_density.sh
-```
-The rsulting plot os stored in : `/Gaphs/TE_Gene_density_ORIGINAL.png` . 
 
 ### 1.4 Step 2: Run TEsorter
 
@@ -131,7 +130,7 @@ Workflow
 4. Summarise the number of families per clade.
 5. Generate a barplot showing clade abundances (base R).
 
-The analysis was performed on the cluster using the following two scripts :
+The analysis was performed on the cluster using:
 
 ```
 sbatch Scripts/02-run_TEsorter_Refinement.sh 
@@ -142,11 +141,17 @@ sbatch Scripts/01.5_family_clade_counts.sh
 The second script computes clade counts and produces a simple barplot using base R to avoid package compatibility issues on the cluster.
 
 
+Here is a **clean continuation** of your README in the same format, style, and level of detail.  
+Concise, accurate, and consistent with the previous sections you showed.
+
+Paste directly after section **1.5**.
+
 ### 1.6 Generating TE divergence tables with parseRM.pl (RepeatMasker landscape preparation)
 
 To estimate TE insertion ages and visualise genome-wide TE dynamics, it is necessary to transform the raw RepeatMasker output produced by EDTA into divergence tables. These tables contain, for each TE family, the proportion of the genome assigned to different bins of sequence divergence from their consensus sequence.
 
 The parsing step was performed on the cluster using the script:
+
 ```
 sbatch Scripts/01.6-TE_dynamics.sh
 ```
@@ -157,15 +162,18 @@ This script executes the RepeatMasker parser `parseRM.pl` with the recommended
 - binning scheme: `max_bin = 50`, `bin_len = 1`
 - output:  
     divergence tables grouped by Rname, Rclass, and Rfam
+    
 
 The parser produces the following files in the EDTA annotation directory:
 
 - `*.landscape.Div.Rname.tab`
 - `*.landscape.Div.Rclass.tab`
 - `*.landscape.Div.Rfam.tab`
+    
 
 For the downstream TE dynamics analysis, only the Rname-based table is required.  
 A copy of the relevant file was placed into:
+
 ```
 Results/Part_1/07-TE_dynamics/hifiasm_p_ctg.fasta.mod.out.landscape.Div.Rname.tab
 ```
@@ -174,13 +182,14 @@ Results/Part_1/07-TE_dynamics/hifiasm_p_ctg.fasta.mod.out.landscape.Div.Rname.ta
 
 Insertion age estimation and TE dynamics visualisation were performed locally in RStudio due to package version constraints on the cluster. The analysis follows the workflow outlined in Manual 1:
 
-1. Loading the parsed RepeatMasker divergence table (`Div.Rname.tab`).
-2. Converting percent divergence into a continuous divergence metric.
-3. Calculating TE insertion ages using the Brassicaceae substitution rate  
+1. Load the parsed RepeatMasker divergence table (`Div.Rname.tab`).
+2. Convert percent divergence into a continuous divergence metric.
+3. Calculate TE insertion ages using the Brassicaceae substitution rate  
     (8.22 × 10⁻⁹ substitutions per site per year).
-4. Aggregating TE sequence abundance (in Mbp) across divergence bins.
-5. Visualising TE dynamics by superfamily.
+4. Aggregate TE sequence abundance (in Mbp) across divergence bins.
+5. Visualise TE dynamics by superfamily.
     
+
 The R script was adjusted used on local Rstudio where the resulting file from the previous section was stored in the same directory. The script is stored under : 
 
 ```
@@ -194,11 +203,11 @@ This script generates two landscape plots:
     
 - TE_age_landscape.pdf 
     Converts divergence into approximate insertion age (million years).
+    
 
 Both plots were manually saved to:
-
 ```
-/data/users/sschaerer/Eukaryote_Genome_Annotation/Graphs
+/Graphs
 ```
 and converted into .png files to be displayed in `RESULTS.md`
 
