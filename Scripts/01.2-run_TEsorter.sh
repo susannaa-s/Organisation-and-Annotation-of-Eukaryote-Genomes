@@ -9,7 +9,7 @@
 #SBATCH --mem=16G
 
 # Directories
-WORKDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation_2"
+WORKDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation"
 EDTA_DIR="${WORKDIR}/Results/Part_1/01-EDTA_annotation"
 RESULTS="${WORKDIR}/Results/Part_1/02-TE_sorter"
 LOGS="${WORKDIR}/Logs"

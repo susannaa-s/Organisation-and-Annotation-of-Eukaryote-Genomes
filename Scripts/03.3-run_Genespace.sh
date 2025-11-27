@@ -8,7 +8,7 @@
 #SBATCH --time=2-00:00:00
 #SBATCH --mem=120G
 
-WORKDIR=/data/users/sschaerer/Eukaryote_Genome_Annotation_2
+WORKDIR=/data/users/sschaerer/Eukaryote_Genome_Annotation
 INPUTDIR=$WORKDIR/Results/Part_3/02-GENESPACE_inputs
 OUTPUTDIR=$WORKDIR/Results/Part_3/03-GENESPACE_results
 COURSEDIR=/data/courses/assembly-annotation-course/CDS_annotation

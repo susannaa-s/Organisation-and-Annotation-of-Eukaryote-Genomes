@@ -10,8 +10,8 @@
 
 set -euo pipefail
 
-IN="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2/04-MAKER_output_refinement"
-OUT="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2/05-BUSCO"
+IN="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2/04-MAKER_output_refinement"
+OUT="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2/05-BUSCO"
 mkdir -p "$OUT"
 
 module load SeqKit/2.6.1

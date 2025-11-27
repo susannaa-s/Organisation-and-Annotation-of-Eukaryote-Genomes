@@ -11,7 +11,7 @@
 # Step 1 – Prepare BED and peptide FASTA files for GENESPACE
 # ============================================================
 
-WORKDIR=/data/users/sschaerer/Eukaryote_Genome_Annotation_2
+WORKDIR=/data/users/sschaerer/Eukaryote_Genome_Annotation
 RESULTSDIR=$WORKDIR/Results/Part_3/02-GENESPACE_inputs
 
 REFINEDIR=$WORKDIR/Results/Part_3/01-uniprot_homology

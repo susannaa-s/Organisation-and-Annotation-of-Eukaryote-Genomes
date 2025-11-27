@@ -7,7 +7,7 @@
 #SBATCH --error=Logs/02.1_maker_setup_%j.err
 
 # path to working directory and container
-WORKDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2/01-MAKER_annotation_setup"
+WORKDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2/01-MAKER_annotation_setup"
 CONTAINER="/data/courses/assembly-annotation-course/CDS_annotation/containers/MAKER_3.01.03.sif"
 
 # Create and enter the working directory 

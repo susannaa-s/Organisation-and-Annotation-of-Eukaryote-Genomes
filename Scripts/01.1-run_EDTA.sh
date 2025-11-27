@@ -9,7 +9,7 @@
 #SBATCH --mem=250G
 
 # Definition of Directories
-WORKDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation_2"
+WORKDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation"
 mkdir -p $WORKDIR/Results/Part_1/01-EDTA_annotation
 cd $WORKDIR/Results/Part_1/01-EDTA_annotation
 

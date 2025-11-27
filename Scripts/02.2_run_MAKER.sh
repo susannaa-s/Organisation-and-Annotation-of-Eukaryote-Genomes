@@ -10,8 +10,8 @@
 
 # Directories
 COURSEDIR="/data/courses/assembly-annotation-course/CDS_annotation"
-SETUPDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2/01-MAKER_annotation_setup"
-WORKDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2/02-MAKER_annotation_results"
+SETUPDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2/01-MAKER_annotation_setup"
+WORKDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2/02-MAKER_annotation_results"
 
 REPEATMASKER_DIR="$COURSEDIR/softwares/RepeatMasker"
 

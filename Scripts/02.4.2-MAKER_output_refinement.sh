@@ -12,7 +12,7 @@ set -euo pipefail
 # ------------------------------------------------------------
 # Paths
 # ------------------------------------------------------------
-BASE="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2"
+BASE="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2"
 WORKDIR="${BASE}/04-MAKER_output_refinement"
 COURSEDIR="/data/courses/assembly-annotation-course/CDS_annotation"
 

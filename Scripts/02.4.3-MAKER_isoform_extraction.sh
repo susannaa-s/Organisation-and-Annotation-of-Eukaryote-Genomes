@@ -16,7 +16,7 @@
 set -e
 
 # Move into directory where MAKER refinement output is stored
-cd /data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2/04-MAKER_output_refinement
+cd /data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2/04-MAKER_output_refinement
 
 INPUT="hifiasm_p_ctg.all.maker.proteins.renamed.filtered.fasta"
 LENGTHS="prot_lengths.txt"

@@ -10,7 +10,7 @@
 # ----------------------------------------------------------
 # User-defined paths
 # ----------------------------------------------------------
-WORKDIR=/data/users/sschaerer/Eukaryote_Genome_Annotation_2
+WORKDIR=/data/users/sschaerer/Eukaryote_Genome_Annotation
 EDTA_LIB=$WORKDIR/Results/Part_1/01-EDTA_annotation/hifiasm_p_ctg.fasta.mod.EDTA.TElib.fa
 RESULTS=$WORKDIR/Results/Part_1/04-Refinement_TEsorter
 CONTAINER=/data/courses/assembly-annotation-course/CDS_annotation/containers/TEsorter_1.3.0.sif

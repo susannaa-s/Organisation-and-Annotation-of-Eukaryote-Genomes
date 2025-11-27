@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-BASE="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2"
+BASE="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2"
 IN="${BASE}/04-MAKER_output_refinement/filtered.genes.renamed.gff3"
 OUTDIR="${BASE}/06-AGAT_statistics"
 CONTAINER="/containers/apptainer/agat-1.2.0.sif"

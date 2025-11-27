@@ -7,7 +7,7 @@
 #SBATCH --output=./Logs/01.5_family_clade_counts_%j.out
 #SBATCH --error=./Logs/01.5_family_clade_counts_%j.err
 
-WORKDIR=/data/users/sschaerer/Eukaryote_Genome_Annotation_2
+WORKDIR=/data/users/sschaerer/Eukaryote_Genome_Annotation
 TE_SORTER_DIR=$WORKDIR/Results/Part_1/04-Refinement_TEsorter
 OUTDIR=$WORKDIR/Results/Part_1/05-Clade_Counts_TEsorter
 mkdir -p "$OUTDIR"
@@ -40,7 +40,7 @@ echo "$OUTDIR/Copia_Gypsy_family_clade_counts.tsv"
 Rscript - <<'EOF'
 
 # Paths
-WORKDIR <- "/data/users/sschaerer/Eukaryote_Genome_Annotation_2"
+WORKDIR <- "/data/users/sschaerer/Eukaryote_Genome_Annotation"
 OUTDIR  <- file.path(WORKDIR, "Results/Part_1/05-Clade_Counts_TEsorter")
 TABLE   <- file.path(OUTDIR, "Copia_Gypsy_family_clade_counts.tsv")
 

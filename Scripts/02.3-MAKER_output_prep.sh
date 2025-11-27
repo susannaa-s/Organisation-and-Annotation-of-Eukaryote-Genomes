@@ -13,11 +13,11 @@
 COURSEDIR="/data/courses/assembly-annotation-course/CDS_annotation"
 
 # MAKER results from the previous step
-MAKER_RESULTS="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2/02-MAKER_annotation_results"
+MAKER_RESULTS="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2/02-MAKER_annotation_results"
 GENOME="hifiasm_p_ctg"
 
 # Output directory for merged files
-OUTDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2/03-MAKER_output_prep"
+OUTDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2/03-MAKER_output_prep"
 mkdir -p "$OUTDIR"
 
 # Path to datastore

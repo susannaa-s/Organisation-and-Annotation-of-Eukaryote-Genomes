@@ -15,7 +15,7 @@
 COURSEDIR="/data/courses/assembly-annotation-course/CDS_annotation"
 
 # ---- INPUTS FROM PART 2 (refined outputs) ----
-INPUTDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_2/04-MAKER_output_refinement"
+INPUTDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_2/04-MAKER_output_refinement"
 
 # CHANGED: use the longest isoform FASTA (40275 proteins)
 QUERY="${INPUTDIR}/maker_proteins.longest.fasta"
@@ -24,7 +24,7 @@ QUERY="${INPUTDIR}/maker_proteins.longest.fasta"
 GFF_IN="${INPUTDIR}/filtered.genes.renamed.gff3"
 
 # ---- OUTPUTS TO PART 3 ----
-WORKDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Results/Part_3/01-uniprot_homology"
+WORKDIR="/data/users/sschaerer/Eukaryote_Genome_Annotation/Results/Part_3/01-uniprot_homology"
 mkdir -p "$WORKDIR"
 cd "$WORKDIR"
 

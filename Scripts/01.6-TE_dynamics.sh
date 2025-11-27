@@ -4,13 +4,13 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
 #SBATCH --time=02:00:00
-#SBATCH --output=/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Logs/01.6_TE_dynamics_%j.out
-#SBATCH --error=/data/users/sschaerer/Eukaryote_Genome_Annotation_2/Logs/01.6_TE_dynamics_%j.err
+#SBATCH --output=/data/users/sschaerer/Eukaryote_Genome_Annotation/Logs/01.6_TE_dynamics_%j.out
+#SBATCH --error=/data/users/sschaerer/Eukaryote_Genome_Annotation/Logs/01.6_TE_dynamics_%j.err
 
 # ------------------------------------------------------------
 # Paths
 # ------------------------------------------------------------
-BASE="/data/users/sschaerer/Eukaryote_Genome_Annotation_2"
+BASE="/data/users/sschaerer/Eukaryote_Genome_Annotation"
 
 GENOME="hifiasm_p_ctg.fasta"
 EDTA_OUT="$BASE/Results/Part_1/01-EDTA_annotation/${GENOME}.mod.EDTA.anno"
