@@ -17,8 +17,11 @@ genomes <- gsub("\\.bed$", "", basename(bedFiles))
 cat("Detected genomes:\n")
 print(genomes)
 
+# Reference genome must be explicitly defined
+refGenome <- "TAIR10"
+
 # ------------------------------------------------------------
-# Initialise GENESPACE (old API, no synteny parameters allowed)
+# Initialise GENESPACE
 # ------------------------------------------------------------
 gpar <- init_genespace(
   wd = wd,
@@ -37,7 +40,22 @@ saveRDS(out,  file.path(wd, "gs_out.rds"))
 cat("GENESPACE core analysis finished.\n")
 
 # ------------------------------------------------------------
-# Riparian plot (old GENESPACE API)
+# Build PANGENOME MATRIX (the missing part!)
+# ------------------------------------------------------------
+cat("Building pangenome matrix...\n")
+
+pangenome <- query_pangenes(
+  out,
+  bed = NULL,
+  refGenome = refGenome,
+  transform = TRUE
+)
+
+saveRDS(pangenome, file.path(wd, "pangenome_matrix.rds"))
+cat("Pangenome matrix saved.\n")
+
+# ------------------------------------------------------------
+# Riparian plot
 # ------------------------------------------------------------
 cat("Generating riparian plot...\n")
 
@@ -47,7 +65,6 @@ plot_riparian(
 )
 
 cat("Riparian plot complete.\n")
-
 
 # ------------------------------------------------------------
 # Pairwise dotplots
