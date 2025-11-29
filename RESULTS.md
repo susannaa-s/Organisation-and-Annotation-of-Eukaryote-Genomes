@@ -314,8 +314,9 @@ Across the five Arabidopsis accessions, the riparian plot shows highly conserved
 - no major breaks in gene order
 Minor local wiggles in the braids reflect small-scale differences in local ordering or annotation boundaries, but no genome-wide structural variation is evident. Overall, the accessions are structurally very similar to TAIR10 at the macroscopic synteny level.
 
+<img src="Graphs/pangenome_frequency_plot.png" width="600">
 
-
+The pangenome analysis reveals an overall pattern consistent with natural variation in gene content among Arabidopsis accessions and reflects a largely conserved gene space with a modest accessory component.
 
 
 
