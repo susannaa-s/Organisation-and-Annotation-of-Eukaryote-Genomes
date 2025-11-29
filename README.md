@@ -705,16 +705,19 @@ RiparianPlots/
 
 GENESPACE produces:
 
-* pangenome matrix
+- pangenome matrix
   presence/absence of each orthogroup across all accessions
-* core orthogroups
+- core orthogroups
   present in all genomes
-* accessory orthogroups
+- accessory orthogroups
   present in a subset
-* unique orthogroups
+- unique orthogroups
   specific to MR-0 or other accessions
-* dotplots showing pairwise syntenic hits
-* riparian plots showing multi-genome gene-order structure
+- dotplots showing pairwise syntenic hits
+- riparian plots showing multi-genome gene-order structure
 
-Plots were converted to PNG for use in `RESULTS.md`.
+The plots were converted to PNG for use in `RESULTS.md`.
+
+
+
 
